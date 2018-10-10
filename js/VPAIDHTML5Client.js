@@ -218,13 +218,19 @@ function $throwIfDestroyed() {
 }
 
 function getOrigin() {
-    if( window.location.origin ) {
+    if (window.location.origin !== 'null') {
+
         return window.location.origin;
-    }
-    else {
+
+    } else if (window.location.hostname.length) {
+
         return window.location.protocol + "//" +
             window.location.hostname +
             (window.location.port ? ':' + window.location.port: '');
+
+    } else {
+        // try the top if this is a friendly iframe
+        return window.top.location.origin;
     }
 }
 
